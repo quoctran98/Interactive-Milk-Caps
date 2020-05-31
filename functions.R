@@ -1,3 +1,5 @@
+library(stringr)
+
 #From Sacha Epskamp on SO: https://stackoverflow.com/a/12996160/5299338
 addTrans <- function(color,trans)
 {
@@ -21,7 +23,7 @@ addTrans <- function(color,trans)
   return(res)
 }
 
-#R implementation of Haversine formula from (km): https://rosettacode.org/wiki/Haversine_formula#R
+#R implementation of Haversine formula (in km) from: https://rosettacode.org/wiki/Haversine_formula#R
 haversineDist <- function(lat1, long1, lat2, long2) {
   lat1 <- lat1 * pi / 180
   lat2 <- lat2 * pi / 180
@@ -31,3 +33,17 @@ haversineDist <- function(lat1, long1, lat2, long2) {
   b <- sin(0.5 * (long2 - long1))
   12742 * asin(sqrt(a * a + cos(lat1) * cos(lat2) * b * b))
 }
+
+# Pastes vector togther with oxford comma
+wordsList <- function (words) {
+  if (length(words) == 1) {
+    return(as.character(words[1]))
+  } else if (length(words) == 2) {
+    return(str_c(words, collapse = " and "))
+  } else {
+    allCommas <- str_c(words[1:length(words) - 1], collapse = ", ")
+    return(str_c(c(allCommas, words[length(words)]), collapse = ", and "))
+  }
+}
+
+

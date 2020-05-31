@@ -1,9 +1,8 @@
-library(zipcode)
 library(ggplot2)
 
 stateAbbre <- read.csv("otherData/abbreviations.csv", header=TRUE)
 stateAbbre$State <- toupper(stateAbbre$State)
-data("zipcode")
+load("./rawData/zipcode.rda") # from https://cran.r-project.org/src/contrib/Archive/zipcode/
 source("functions.R")
 source("rawData/dataCleanup.R")
 
@@ -48,6 +47,7 @@ standardPie <- function(milkfat, stateFilt = NA) {
       axis.ticks.y=element_blank(),
       axis.ticks.x=element_blank(),
       axis.title.x=element_blank(),
+      panel.background = element_blank(),
       panel.grid.major = element_blank(),
       panel.grid.minor = element_blank(),
       panel.grid=element_blank(),
@@ -57,7 +57,7 @@ standardPie <- function(milkfat, stateFilt = NA) {
     )
   
   ggplot(colFatDF, aes(x = milkfat, y = num)) +
-    geom_col(aes(fill = color)) +
+    geom_col(aes(fill = color), size = 1, color = "black") +
     coord_polar("y", start=0) +
     scale_fill_manual(values = allColors) + 
     blank_theme + 

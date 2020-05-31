@@ -1,9 +1,8 @@
-library(zipcode)
 library(ggplot2)
 
 stateAbbre <- read.csv("otherData/abbreviations.csv", header=TRUE)
 stateAbbre$State <- toupper(stateAbbre$State)
-data("zipcode")
+load("./rawData/zipcode.rda") # from https://cran.r-project.org/src/contrib/Archive/zipcode/
 source("functions.R")
 source("rawData/dataCleanup.R")
 
@@ -41,7 +40,7 @@ standardGraph <- function(stateFilt = NA) {
   colFatDF$milkfat <- factor(colFatDF$milkfat, levels = c("Whole","Reduced","Low","Skim"))
   
   ggplot(colFatDF, aes(x = milkfat, y = num)) +
-    geom_col(aes(fill = color)) +
+    geom_col(aes(fill = color), color = "black") +
     scale_fill_manual(values = allColors) + 
     theme(legend.position="none") +
     theme(axis.title.y=element_blank(),

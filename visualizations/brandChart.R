@@ -1,4 +1,5 @@
 library(ggplot2)
+library(reshape2)
 cleanedBrands <- read.csv("brands/consensusEdited.csv") # Manually cleaned brands
 colorReference <- read.csv("otherData/colorReference.csv", header=FALSE)
 
@@ -38,13 +39,14 @@ brandChart <- function(rawBrand) {
   df$milkfat <- factor(df$milkfat, levels = c("Whole","Reduced","Low","Skim"))
   
   ggplot(df, aes(x = milkfat, y = brand)) + 
-    geom_raster(aes(fill = color), colour = "black") +
+    geom_tile(aes(fill = color), size = 1, color = "black") +
     scale_fill_manual(values = allColors) + 
     theme(legend.position="none") +
     theme(axis.title.y=element_blank(),
           axis.ticks.y=element_blank(),
           axis.ticks.x=element_blank(),
           axis.title.x=element_blank(),
+          panel.background = element_blank(),
           panel.grid.major = element_blank(),
           panel.grid.minor = element_blank(),
           axis.text=element_text(size=15))

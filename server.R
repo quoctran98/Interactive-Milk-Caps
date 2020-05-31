@@ -8,10 +8,22 @@ source("rawData/getInfo.R")
 source("brands/getBrands.R")
 source("visualizations/brandChart.R")
 
+allStates <- read.csv("otherData/abbreviations.csv")$State
+allStates <- allStates[allStates != "Hawaii"]
+allStates <- allStates[allStates != "Alaska"]
+allStates <- allStates[allStates != "District of Columbia"]
+
 function (input, output, session) {
   
   observe({
     updateSelectInput(session, "stateSelect", selected = input$stateSelectLess)
+  })
+  
+  observe({
+    #updateSelectInput(session, "stateSelect", 
+          #            selected = ifelse(input$regionSelect == "United States", 
+          #                              as.character(allStates),
+           #                             input$stateSelect))
   })
   
   output$blurbState <- renderText({
@@ -19,7 +31,7 @@ function (input, output, session) {
     paste("We have ",
           info$numResponses,
           ifelse(info$numResponses == 1, " response from ", " responses from "),
-          str_c(input$stateSelect, collapse = ", "), 
+          wordsList(input$stateSelect), 
           "!",
           sep = "")
   })
@@ -43,7 +55,7 @@ function (input, output, session) {
   
   output$standardGraphStateTitle <- renderText({
     paste("Here's what milk cap colors in ", 
-          str_c(input$stateSelect, collapse = ", "),
+          wordsList(input$stateSelect),
           " look like across the state:", 
           sep = "")
   })
@@ -51,7 +63,7 @@ function (input, output, session) {
   # Brand title line
   output$brandsStateTitle <- renderText({
     paste("These are the milk brands in ", 
-          str_c(input$stateSelect, collapse = ", "),
+          wordsList(input$stateSelect),
           " that we know of:", 
           sep = "")
   })
